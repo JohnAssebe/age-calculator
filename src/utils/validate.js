@@ -5,7 +5,7 @@ export const validate = (values) => {
   const errors = {};
   if (!values.day) {
     errors.day = "this field is required!";
-  } else if (values.day < 1 || values.day > 30) {
+  } else if (values.day < 1 || values.day > 31) {
     errors.day = "must be a valid day";
   }
   else if(!values.day.match(numbers)){
@@ -30,5 +30,18 @@ export const validate = (values) => {
     else if(!values.year.match(numbers)){
     errors.year="use numbers only"
   }
+
+   if (!errors.day && !errors.month && !errors.year) {
+    const day = parseInt(values.day, 10);
+    const month = parseInt(values.month, 10);
+    const year = parseInt(values.year, 10);
+
+    const isValidDate = new Date(year, month - 1, day).getDate() === day;
+    if (!isValidDate) {
+      errors.day = "Invalid date";
+    }
+  }
+
+  
   return errors;
 };

@@ -54,8 +54,6 @@ function App() {
          months:getMonth,
          days:getDay
     });
-      
-
     },
   });
 
