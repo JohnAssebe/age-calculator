@@ -1,32 +1,65 @@
-import DownArrow from "../src/assets/down.svg";
+/* eslint-disable */
+import { useFormik } from "formik";
+import { useState } from "react";
+import DownArrow from "./assets/down.svg";
+import { validate } from "./utils/validate";
 function App() {
+  const formik = useFormik({
+    initialValues: {
+      day: "",
+      month: "",
+      year: "",
+    },
+    validate:validate,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
   return (
     <div className="relative w-full min-h-screen bg-lightGrey">
       <div className="absolute top-[10%] left-1/2 -translate-x-1/2 px-4 md:px-16 py-6 md:py-8 mx-auto bg-white rounded-br-[60px] md:rounded-br-[120px] rounded-2xl shadow-xl max-w-fit">
-        <form>
-          <div className="flex items-center justify-center gap-5 font-poppins">
+        <form onSubmit={formik.handleSubmit}>
+          <div className="flex items-start justify-center gap-5 font-poppins">
             <div className="flex flex-col items-start justify-center gap-2">
-              <p className="text-sm uppercase text-smokeyGray">day</p>
+              <p className={`text-sm uppercase ${(formik.touched.day && formik.errors.day) ? "text-red-500":"text-smokeyGray"}`}>day</p>
               <input
-                className="w-20 px-2 py-4 text-base border rounded-lg outline-none md:w-32 placeholder:text-smokeyGray focus:border-purple focus:placeholder:text-purple"
+                className={`w-20 px-2 py-4 text-base border rounded-lg outline-none md:w-32 placeholder:text-smokeyGray focus:border-purple focus:placeholder:text-purple ${formik.touched.day && formik.errors.day && "border-red-600 focus:border-red-600 placeholder:text-red-600 focus:placeholder:text-red-500 text-red-500"}`}
                 placeholder="DD"
+                name="day"
+                value={formik.values.day}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.day && formik.errors.day && <p className="text-[10px] text-red-500 font-lightl capitalize">{formik.errors.day}</p>}
             </div>
 
             <div className="flex flex-col items-start justify-center gap-2">
-              <p className="text-sm uppercase text-smokeyGray">month</p>
+              <p className={`text-sm uppercase ${(formik.touched.month && formik.errors.month) ? "text-red-500":"text-smokeyGray"}`}>month</p>
               <input
-                className="w-20 px-2 py-4 text-base border rounded-lg outline-none md:w-32 placeholder:text-smokeyGray focus:border-purple focus:placeholder:text-purple"
+                className={`w-20 px-2 py-4 text-base border rounded-lg outline-none md:w-32 placeholder:text-smokeyGray focus:border-purple focus:placeholder:text-purple ${formik.touched.month && formik.errors.month && "border-red-600 focus:border-red-600 placeholder:text-red-500 focus:placeholder:text-red-500 text-red-500"}`}
                 placeholder="MM"
+                name="month"
+                value={formik.values.month}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.month && formik.errors.month && <p className="text-[10px] text-red-500 font-lightl capitalize">{formik.errors.month}</p>}
+
             </div>
 
             <div className="flex flex-col items-start justify-center gap-2">
-              <p className="text-sm uppercase text-smokeyGray">year</p>
+              <p className={`text-sm uppercase ${(formik.touched.year && formik.errors.year) ? "text-red-500":"text-smokeyGray"}`}>year</p>
               <input
-                className="w-20 px-2 py-4 text-base border rounded-lg outline-none md:w-32 placeholder:text-smokeyGray focus:border-purple focus:placeholder:text-purple"
+                className={`w-20 px-2 py-4 text-base border rounded-lg outline-none md:w-32 placeholder:text-smokeyGray focus:border-purple focus:placeholder:text-purple ${formik.touched.year && formik.errors.year && "border-red-600 focus:border-red-600 placeholder:text-red-500 focus:placeholder:text-red-500 text-red-500"}`}
                 placeholder="YYYY"
+                name="year"
+                value={formik.values.year}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.year && formik.errors.year && <p className="text-[10px] text-red-500 font-lightl capitalize">{formik.errors.year}</p>}
+
             </div>
           </div>
           <div className="relative py-12">
