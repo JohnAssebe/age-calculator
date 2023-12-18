@@ -4,6 +4,7 @@ import { useState } from "react";
 import DownArrow from "./assets/down.svg";
 import { validate } from "./utils/validate";
 function App() {
+  const [age,setAge]=useState({});
   const formik = useFormik({
     initialValues: {
       day: "",
@@ -12,7 +13,49 @@ function App() {
     },
     validate:validate,
     onSubmit: (values) => {
-      console.log(values);
+
+      var dobConcat=values.month+"-"+values.day+"-"+values.year;
+
+      // date of birth related info
+      const dob=new Date(dobConcat);
+      const dobYear=dob.getYear();
+      const dobMonth=dob.getMonth();
+      const dobDay=dob.getDate()
+
+      // current date related info
+      const today=new Date();
+      const currentYear=today.getYear();
+      const currentMonth=today.getMonth();
+      const currentDay=today.getDate();
+      
+      const getYear=currentYear-dobYear;
+
+      if (currentMonth >= dobMonth)
+          var getMonth = currentMonth - dobMonth;
+      else {
+          getYear--;
+          var getMonth = 12 + currentMonth - dobMonth;
+    }
+
+    if (currentDay >= dobDay)
+      var getDay = currentDay - dobDay;
+    else {
+      getMonth--;
+      var getDay = 31 + currentDay - dobDay;
+
+      if (getMonth < 0) {
+        getMonth = 11;
+        getYear--;
+      }
+    }
+
+    setAge({
+         years:getYear,
+         months:getMonth,
+         days:getDay
+    });
+      
+
     },
   });
 
@@ -74,16 +117,16 @@ function App() {
         </form>
         <div className="text-4xl italic font-extrabold md:text-6xl">
           <div className="flex items-center justify-start gap-x-2">
-            <span className="text-purple">- -</span>
+            <span className="text-purple duration-500">{age?.years ? age.years: "- -" }</span>
             <p>years</p>
           </div>
           <div className="flex items-center justify-start gap-x-2">
-            <span className="text-purple">- -</span>
+            <span className="text-purple">{age?.months ? age.months: "- -" }</span>
             <p>months</p>
           </div>
 
           <div className="flex items-center justify-start gap-x-2">
-            <span className="text-purple">- -</span>
+            <span className="text-purple">{age?.days ? age.days: "- -" }</span>
             <p>days</p>
           </div>
         </div>

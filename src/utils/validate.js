@@ -25,7 +25,7 @@ export const validate = (values) => {
     errors.year = "must be in the past";
   }
   else if(values.year < 1900){
-    error.year="must br in the future";
+    errors.year="must be in the future";
   }
     else if(!values.year.match(numbers)){
     errors.year="use numbers only"
